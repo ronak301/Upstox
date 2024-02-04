@@ -3,9 +3,9 @@ import React from "react";
 
 export default function Layout() {
   return (
-    <Stack initialRouteName="holdings">
+    <Stack>
       <Stack.Screen
-        name="holdings"
+        name="index"
         options={{ headerShown: true, headerTitle: "Holdings" }}
       />
     </Stack>
