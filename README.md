@@ -2,4 +2,4 @@
 
 npx expo start -c
 
-![Alt text](/assets/Upstox.mov?raw=true "Animated Submit Button")
+![Alt text](/assets/Screenshot.png?raw=true "Animated Submit Button")
