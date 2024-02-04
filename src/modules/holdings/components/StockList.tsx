@@ -1,17 +1,29 @@
-import { View, FlatList } from "react-native";
+import { View, FlatList, RefreshControl } from "react-native";
 import React from "react";
 import { Holdings } from "../../../types/types";
 import StockListItem from "./StockListItem";
 
 type Props = {
   holdingsData: Holdings;
+  refetch: () => void;
 };
 
-const StockList = ({ holdingsData }: Props) => {
+const StockList = ({ holdingsData, refetch }: Props) => {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  }, []);
+
   const renderItem = ({ item }) => <StockListItem item={item} />;
 
   return (
     <FlatList
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       data={holdingsData}
       renderItem={renderItem}
       keyExtractor={(item) => item?.symbol}

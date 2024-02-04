@@ -7,6 +7,7 @@ import PortfolioSummary from "../components/PortfolioSummary";
 import LoadingComponent from "../../../components/LoadingComponent";
 import ErrorComponent from "../../../components/ErrorComponent";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { isEmpty } from "lodash";
 
 const HoldingsScreen = () => {
   const {
@@ -20,14 +21,17 @@ const HoldingsScreen = () => {
     fetchHoldingsApi();
   }, []);
 
-  if (loading) return <LoadingComponent />;
+  if (loading && isEmpty(data)) return <LoadingComponent />;
 
   if (error) return <ErrorComponent />;
 
   return (
     <Animated.View style={{ flex: 1 }} entering={FadeInDown.duration(500)}>
       <View style={{ flex: 1 }}>
-        <StockList holdingsData={data?.userHolding} />
+        <StockList
+          holdingsData={data?.userHolding}
+          refetch={fetchHoldingsApi}
+        />
         <PortfolioSummary holdingsData={data?.userHolding} />
       </View>
     </Animated.View>
