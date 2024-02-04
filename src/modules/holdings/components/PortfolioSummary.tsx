@@ -11,6 +11,8 @@ import { isEmpty } from "lodash";
 import { Holdings } from "../../../types/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Check from "../../../components/Check";
+import { getPortfolio } from "../../../utils/utils";
+import { useTheme } from "../../../theme";
 
 type Props = {
   holdingsData: Holdings;
@@ -44,27 +46,14 @@ const PortfolioSummary = ({ holdingsData }: Props) => {
 
   const iconName = isExpanded ? "chevron-up" : "chevron-down";
 
+  const { colors } = useTheme();
+
   if (isEmpty(holdingsData)) {
     return null;
   }
 
-  console.log(holdingsData);
-
-  const totalProfitLoss = holdingsData.reduce((acc, holding) => {
-    return acc + (holding.ltp - holding.avgPrice) * holding.quantity;
-  }, 0);
-
-  const currentValue = holdingsData.reduce((acc, holding) => {
-    return acc + holding.ltp * holding.quantity;
-  }, 0);
-
-  const totalInvestment = holdingsData.reduce((acc, holding) => {
-    return acc + holding.avgPrice * holding.quantity;
-  }, 0);
-
-  const todaysProfitLoss = holdingsData.reduce((acc, holding) => {
-    return acc + (holding.ltp - holding.close) * holding.quantity;
-  }, 0);
+  const { totalInvestment, totalProfitLoss, todaysProfitLoss, currentValue } =
+    getPortfolio(holdingsData);
 
   return (
     <TouchableOpacity
@@ -88,7 +77,7 @@ const PortfolioSummary = ({ holdingsData }: Props) => {
         setIsExpanded(!isExpanded);
       }}>
       <View style={{ alignSelf: "center" }}>
-        <Ionicons name={iconName} size={22} color="grey" />
+        <Ionicons name={iconName} size={22} color={colors.primary} />
       </View>
 
       <Check ifPresent={isExpanded}>

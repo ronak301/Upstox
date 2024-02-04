@@ -4,20 +4,33 @@ import StockList from "../components/StockList";
 import { useApi } from "../../../api/useApi";
 import { fetchHoldings } from "../../../api/holdingsApi";
 import PortfolioSummary from "../components/PortfolioSummary";
+import LoadingComponent from "../../../components/LoadingComponent";
+import ErrorComponent from "../../../components/ErrorComponent";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 const HoldingsScreen = () => {
-  const { request: fetchHoldingsApi, data, loading } = useApi(fetchHoldings);
+  const {
+    request: fetchHoldingsApi,
+    data,
+    loading,
+    error,
+  } = useApi(fetchHoldings);
 
   React.useEffect(() => {
     fetchHoldingsApi();
   }, []);
 
-  if (loading) return <Text>Loading...</Text>;
+  if (loading) return <LoadingComponent />;
+
+  if (error) return <ErrorComponent />;
+
   return (
-    <View style={{ flex: 1 }}>
-      <StockList holdingsData={data?.userHolding} />
-      <PortfolioSummary holdingsData={data?.userHolding} />
-    </View>
+    <Animated.View style={{ flex: 1 }} entering={FadeInDown.duration(500)}>
+      <View style={{ flex: 1 }}>
+        <StockList holdingsData={data?.userHolding} />
+        <PortfolioSummary holdingsData={data?.userHolding} />
+      </View>
+    </Animated.View>
   );
 };
 
