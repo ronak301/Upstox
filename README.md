@@ -2,6 +2,6 @@
 
 npx expo start -c
 
-![img](assets/Screenshot.png?raw=true=100x200)
+![img](assets/Screenshot.png=100x200)
 
-![img](assets/Upstox.gif?raw=true)
+![img](assets/Upstox.gif)
