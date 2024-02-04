@@ -2,6 +2,6 @@
 
 npx expo start -c
 
-![img](assets/Screenshot.png?raw=true)
+![img](assets/Screenshot.png?raw=true) { width: 200px; }
 
 ![img](assets/Upstox.gif?raw=true)
